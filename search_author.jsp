@@ -33,7 +33,7 @@
 <%
      try {
         String input = request.getParameter("string");
-        String query = "select author from book where author like '%"+input+"%' order by author ";
+        String query = "select author from book where author like '%"+input+"%' order by length(author) ";
         stmt = con.createStatement();
         rs = stmt.executeQuery(query);
         JSONArray arr = new JSONArray();

@@ -36,25 +36,28 @@
     else{
         String ISBN = request.getParameter("ISBN"); //데이터 형태 구분 해야함.
         String test_isbn = ISBN.replaceAll("-","").replaceAll(" ","");
-        try{
-            Double testt = Double.parseDouble(test_isbn);
-            String name = request.getParameter("name");
-            String genre = request.getParameter("genre");
-            String author = request.getParameter("author");
-            Integer published = Integer.parseInt(request.getParameter("published"));
-            String query = "insert into book(ISBN, name, genre, author, published) "
-            + "values(?,?,?,?,?)";
-            pstmt = con.prepareStatement(query);
-            pstmt.setString(1,ISBN);
-            pstmt.setString(2,name);
-            pstmt.setString(3,genre);
-            pstmt.setString(4,author);
-            pstmt.setInt(5,published);
-            pstmt.executeUpdate();
+        if((ISBN.indexOf("-")>-1) && (test_isbn.length()>0)){
+            try{
+                Double testt = Double.parseDouble(test_isbn); //숫자가 아닌 문제가 들어가면 예외처리됨 -> 저장 안됨
+                String name = request.getParameter("name");
+                String genre = request.getParameter("genre");
+                String author = request.getParameter("author");
+                Integer published = Integer.parseInt(request.getParameter("published"));
+                String query = "insert into book(ISBN, name, genre, author, published) "
+                + "values(?,?,?,?,?)";
+                pstmt = con.prepareStatement(query);
+                pstmt.setString(1,ISBN);
+                pstmt.setString(2,name);
+                pstmt.setString(3,genre);
+                pstmt.setString(4,author);
+                pstmt.setInt(5,published);
+                pstmt.executeUpdate();
 
-        }catch (Exception e) {
-            out.println(e.toString());
+            }catch (Exception e) {
+                out.println(e.toString());
+            }
         }
+        
     }
     
     %>
